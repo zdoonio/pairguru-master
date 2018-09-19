@@ -1,7 +1,7 @@
 require "rails_helper"
 
-describe titlebracketsvalidator do
-  subject { validatable.new(title: title) }
+describe TitleBracketsValidator do
+  subject { Validatable.new(title: title) }
 
   shared_examples "has valid title" do
     it "should be valid" do
@@ -16,69 +16,69 @@ describe titlebracketsvalidator do
   end
 
   context "with curly brackets" do
-    let(:title) { "the fellowship of the ring {peter jackson}" }
+    let(:title) { "The Fellowship of the Ring {Peter Jackson}" }
     it_behaves_like "has valid title"
   end
 
   context "with square brackets" do
-    let(:title) { "the fellowship of the ring [lord of the rings]" }
+    let(:title) { "The Fellowship of the Ring [Lord of The Rings]" }
     it_behaves_like "has valid title"
   end
 
   context "with not closed brackets" do
-    let(:title) { "the fellowship of the ring (2001" }
+    let(:title) { "The Fellowship of the Ring (2001" }
     it_behaves_like "has invalid title"
   end
 
   context "with not opened brackets" do
-    let(:title) { "the fellowship of the ring 2001)" }
+    let(:title) { "The Fellowship of the Ring 2001)" }
     it_behaves_like "has invalid title"
   end
 
   context "with not too much closing brackets" do
-    let(:title) { "the fellowship of the ring (2001) - 2003)" }
+    let(:title) { "The Fellowship of the Ring (2001) - 2003)" }
     it_behaves_like "has invalid title"
   end
 
   context "with not too much opening brackets" do
-    let(:title) { "the fellowship of the ring (2001 - (2003)" }
+    let(:title) { "The Fellowship of the Ring (2001 - (2003)" }
     it_behaves_like "has invalid title"
   end
 
   context "with empty brackets" do
-    let(:title) { "the fellowship of the ring ()" }
+    let(:title) { "The Fellowship of the Ring ()" }
     it_behaves_like "has invalid title"
   end
 
   context "with brackets in wrong order" do
-    let(:title) { "the fellowship of the )ring(" }
+    let(:title) { "The Fellowship of the )Ring(" }
     it_behaves_like "has invalid title"
   end
 
   context "with matching brackets" do
-    let(:title) { "the fellowship of the ring (2001)" }
+    let(:title) { "The Fellowship of the Ring (2001)" }
     it_behaves_like "has valid title"
   end
 
   context "with multiple matching brackets" do
-    let(:title) { "the fellowship of the ring [lord of the rings] (2001) {peter jackson}" }
+    let(:title) { "The Fellowship of the Ring [Lord of The Rings] (2001) {Peter Jackson}" }
     it_behaves_like "has valid title"
   end
 
   context "with nested matching brackets" do
-    let(:title) { "the fellowship of the ring [lord of the rings {peter jackson}] (2012)" }
+    let(:title) { "The Fellowship of the Ring [Lord of The Rings {Peter Jackson}] (2012)" }
     it_behaves_like "has valid title"
   end
 
   context "with no brackets" do
-    let(:title) { "lord of the rings" }
+    let(:title) { "Lord of The Rings" }
     it_behaves_like "has valid title"
   end
 end
 
-class validatable
-  include activemodel::validations
-  validates_with titlebracketsvalidator
+class Validatable
+  include ActiveModel::Validations
+  validates_with TitleBracketsValidator
   attr_accessor :title
 
   def initialize(title:)
