@@ -5,7 +5,6 @@ class CommentsController < ApplicationController
     @movie = Movie.find(params[:movie_id])
     @comment = @movie.comments.build(comment_params())
     @comment.user_id = current_user.id
-    if
     if @comment.save
       flash[:notice] = "Comment added."
       redirect_to movie_path(@movie)
