@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/hall_of_fame', to: 'fame#index', as: 'fame_path'
   devise_for :users
 
   root "home#welcome"
