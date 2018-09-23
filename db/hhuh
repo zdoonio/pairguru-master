@@ -1,0 +1,5 @@
+SELECT name, count(Comment.id)
+FROM users, comments Comment
+WHERE User.id = Comment.user_id
+ORDER BY count(Comment.id)
+LIMIT 10

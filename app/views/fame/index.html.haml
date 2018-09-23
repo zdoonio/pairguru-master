@@ -8,8 +8,8 @@
           %th Name
           %th Number of comments
       %tbody
-        - @users.each_with_index do |user, i|
+        - @users.sort_by { |user| [-user.comments.count] }.each_with_index do |user, i|
           %tr
             %td= i + 1
             %td= user.name
-            %td= 12
+            %td= user.comments.count
