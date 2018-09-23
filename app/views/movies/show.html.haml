@@ -20,7 +20,9 @@
         %p
           = link_to 'Delete', [comment.movie, comment], method: :delete, data: { confirm: "Are you sure?"}
     %br/
-%h3 Add a comment:
-= simple_form_for([@movie, @movie.comments.build]) do |form|
-  = form.input  :content
-  = form.button :submit, html: {class: 'btn btn-sm btn-default'}
+- if current_user != nil
+  - if !check_user_commented_movie(current_user.id, @movie.id)
+    %h3 Add a comment:
+    = simple_form_for([@movie, @movie.comments.build]) do |form|
+      = form.input  :content
+      = form.button :submit, html: {class: 'btn btn-sm btn-default'}

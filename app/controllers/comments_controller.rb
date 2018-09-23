@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :check_commented_access, only: [:create]
 
   def create
     @movie = Movie.find(params[:movie_id])
@@ -33,4 +34,8 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:content)
   end
 
+  def check_commented_access
+    @movie = Movie.find(params[:movie_id])
+    !Comment.where(movie_id: @movie.id, user_id: current_user.id).any?
+  end
 end
